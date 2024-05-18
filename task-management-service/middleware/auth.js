@@ -10,7 +10,7 @@ const authMiddleware = async (req, res, next) => {
     }
     console.log(req.body);
 
-    const response = await axios.get("http://localhost:8080/auth/check-auth", {
+    const response = await axios.get(`${process.env.USER_URL}/auth/check-auth`, {
       headers: {
         Authorization: authHeader,
       },
@@ -32,7 +32,7 @@ const assigneeExistsValidator = async (assigneeId) => {
 
   try {
     const response = await axios.get(
-      `http://localhost:8080/auth/check-user/${assigneeId}`
+      `${process.env.USER_URL}/auth/check-user/${assigneeId}`
     );
 
     if (response.status === 200) {
