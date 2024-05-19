@@ -40,6 +40,3 @@ const taskSchema = new mongoose.Schema({
 });
 
 module.exports = mongoose.model('Task', taskSchema);
-
-
-// 2024-05-18T10:12:00.460Z

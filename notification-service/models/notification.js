@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-const task = require("../../task-management-service/models/task");
 const { Schema } = mongoose;
 
 const notificationSchema = new Schema({

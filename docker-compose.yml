@@ -24,4 +24,10 @@ services:
       - "8082:8082"
     depends_on:
       - task-management-service
-
+  
+  # frontend:
+  #   build: ./frontend
+  #   env_file:
+  #     - ./frontend/.env
+  #   ports:
+  #     - "3000:3000"

@@ -1,4 +1,4 @@
-// import { UseScrollTriggerOptions } from "@mui/material/useScrollTrigger/useScrollTrigger";
+
 import { Task, TasksState} from "../../utils/typed";
 import {
   loadStateFromLocalStorage,
@@ -34,7 +34,7 @@ const tasksSlice = createSlice({
       state.validation = action.payload;
     },
     addTaskToAll: (state, action: PayloadAction<Task>) => {
-      state.tasks = [action.payload, ...state.tasks];
+      state.tasks = [...state.tasks, action.payload,];
       state.isLoading = false;
       state.error = null;
       saveLocalStorage("tasksState", state);

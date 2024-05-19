@@ -1,6 +1,5 @@
 const Notification = require("../models/notification");
 const io = require("../notificationSocket");
-const {Types}= require("mongoose")
 
 exports.createNotification = async (req, res, next) => {
   try {
