@@ -32,6 +32,7 @@ router.post("",
   ],
   taskController.createTask
 );
+router.get("/:taskId", authMiddleware, taskController.getTaskById);
 
 router.get("", authMiddleware, taskController.getAllTasks);
 

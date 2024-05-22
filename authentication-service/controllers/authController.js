@@ -87,7 +87,6 @@ exports.refreshToken = async (req, res, next) => {
 };
 
 exports.logout = (req, res, next) => {
-  /////Some thing
   res.clearCookie("token");
   res.status(200).json({ message: "Logout successful" });
 };
@@ -99,22 +98,6 @@ exports.getUsers = async (req, res, next) => {
   next(error);
 }
 };
-// exports.getUserById = async (req, res, next) => {
-//   try {
-//     const userId = req.params.userId;
-//     const user = await User.findById(userId);
-//     if (!user) {
-//       const error = new Error('User not found.');
-//       error.statusCode = 404;
-//       throw error;
-//     }
-
-//     res.status(200).json({userId: user._id, name: user.name});
-//   } catch (err) {
-//     err.statusCode = err.statusCode || 500;
-//     next(err);
-//   }
-// }
 
 exports.authCheck = async (req, res, next) => {
   try {

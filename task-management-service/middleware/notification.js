@@ -5,7 +5,7 @@ exports.createNotification = async (task) => {
     const response = await axios.post(`${process.env.NOTIFICATION_URL}/notifications/`, {
       userId: task.assignee,
       taskId: task._id,
-      details: `Task ${task.title} ${task._id} created at ${task.date}`,
+      details: `Task ${task.title} created at ${new Date(task.date).toLocaleString()}.`,
     });
   } catch (error) {
     console.log(error);
@@ -18,7 +18,7 @@ exports.updateNotification = async (task) => {
     const response = await axios.put(`${process.env.NOTIFICATION_URL}/notifications/`, {
       userId: task.assignee,
       taskId: task._id,
-      details: `Task ${task.title} ${task._id} updated at ${Date.now()}`,
+      details: `Task ${task.title} updated at ${new Date().toLocaleString()}.`,
     });
   } catch (error) {
     console.log(error);

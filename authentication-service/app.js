@@ -1,4 +1,4 @@
-// const path = require('path');
+
 const express = require('express');
 const session = require('express-session');
 const cookieParser = require('cookie-parser');
@@ -13,34 +13,15 @@ const errorHandler = require('./middleware/error-handler');
 const app = express();
 const port = process.env.PORT || 8080
 
-// const corsOptions = {
-//   origin: "*",
-//   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-//   preflightContinue: false,
-//   optionsSuccessStatus: 204,
-//   allowedHeaders: "Content-Type,Authorization",
-// };
+const corsOptions = {
+  origin: "*",
+  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+  preflightContinue: false,
+  optionsSuccessStatus: 204,
+  allowedHeaders: "Content-Type,Authorization",
+};
 
-// app.use(cors(corsOptions));
-app.use((req, res, next) => {
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader(
-    'Access-Control-Allow-Methods',
-    'OPTIONS, GET, POST, PUT, PATCH, DELETE'
-  );
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-  next();
-});
-
-app.use(cookieParser());
-
-app.use(session({
-  secret: process.env.SESSION_SECRET,
-  resave: false,
-  saveUninitialized: false,
-  cookie: { secure: true }
-}));
-
+app.use(cors(corsOptions));
 
 app.use(bodyParser.json());
 

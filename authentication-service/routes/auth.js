@@ -47,7 +47,6 @@ router.get("/refreshToken", isAuth, authController.refreshToken)
 
 router.post("/logout", isAuth, authController.logout);
 
-// router.get ('/user/:userId', authController.getUserById)
 router.get ('/users', isAuth, authController.getUsers)
 
 router.get("/check-auth", isAuth, authController.authCheck);

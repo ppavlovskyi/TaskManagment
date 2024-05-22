@@ -12,11 +12,9 @@ import {
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { Link, useNavigate } from "react-router-dom";
-// Подключаем экшен для регистрации
-import { UserRegisterBody } from "../utils/typed";
+import { ResponseError, UserRegisterBody } from "../utils/typed";
 import LayoutForm from "../components/Layout/LayoutForm";
 import { routes } from "../routes/routes";
-import { useAppDispatch } from "../app/hooks";
 import { registerUser } from "../features/api/user";
 
 const SignUp = () => {
@@ -27,9 +25,9 @@ const SignUp = () => {
   });
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState(false);
+  const [validationError, setValidationError] = useState<ResponseError|null>(null);
   const navigate = useNavigate();
-  const dispatch = useAppDispatch();
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
@@ -41,6 +39,7 @@ const SignUp = () => {
 
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
+    setValidationError(null);
     setFormData({
       ...formData,
       [name]: value,
@@ -49,12 +48,13 @@ const SignUp = () => {
 
   const handleSubmit = async () => {
     setLoading(true);
-    setError(null);
+    setError(false);
+    setValidationError(null)
     try {
-      await dispatch(registerUser(formData));
+      const data = await registerUser(formData, (e)=>setValidationError(e));
       navigate(routes.HOME);
     } catch (error: any) {
-      setError(error.message);
+      setError(true);
     } finally {
       setLoading(false);
     }
@@ -122,9 +122,10 @@ const SignUp = () => {
           />
         </FormControl>
 
-        {error && (
+        {validationError && (
           <Typography color="error" variant="body2">
-            {error}
+            {validationError.message}{" "}
+            {validationError?.data&&validationError.data.reduce((acc, curr)=> `${acc} ${curr.msg}`,"")}
           </Typography>
         )}
 

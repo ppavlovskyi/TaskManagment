@@ -6,11 +6,11 @@ const {
   authMiddleware,
 } = require("../middleware/auth");
 
-router.post('/',notificationController.createNotification);
+router.post('',notificationController.createNotification);
 
-router.get('/',authMiddleware, notificationController.getAllNotificationByUserId);
+router.get('',authMiddleware, notificationController.getAllUnreadNotificationByUserId);
 
-router.put('/', notificationController.updateNotificationByTaskId);
+router.put('', notificationController.updateNotificationByTaskId);
 
 router.put('/:notificationId', notificationController.markNotificationAsReadByNotificationId);
 

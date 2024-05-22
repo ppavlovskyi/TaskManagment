@@ -13,7 +13,6 @@ const handleTaskNotification = async (taskId, userId, action) => {
     }
 
     const notification = await notificationController.createNotification(userId, details);
-    // Отправка уведомления через Socket.IO
     const io = require('./notificationSocket').getIO();
     io.emit('newNotification', notification);
   } catch (error) {

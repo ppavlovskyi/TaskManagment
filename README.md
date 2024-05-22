@@ -59,9 +59,10 @@ The app includes pre-configured user accounts to test the real-time notification
     **Example for `frontend` (`frontend/.env`):**
 
     ```env
-    REACT_APP_USER_URL=http://localhost:8080
-    REACT_APP_TASK_URL=http://localhost:8081
-    REACT_APP_NOTIFICATION_URL=http://localhost:8082
+    REACT_APP_HOST=localhost
+    REACT_APP_USER_URL=http://${REACT_APP_HOST}:8080
+    REACT_APP_TASK_URL=http://${REACT_APP_HOST}:8081
+    REACT_APP_NOTIFICATION_URL=http://${REACT_APP_HOST}:8082
     ```
 
 3. **Run Docker Compose:**
@@ -84,7 +85,7 @@ The app includes pre-configured user accounts to test the real-time notification
 - `user1@test.com` / `password1`
 - `user2@test.com` / `password2`
 - `user3@test.com` / `password3`
-- `user1@test.com4` / `password4`
+- `user4@test.com` / `password4`
 
 ## License
 

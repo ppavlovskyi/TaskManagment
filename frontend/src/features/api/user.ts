@@ -1,9 +1,10 @@
 import { AppDispatch, store } from "../../app/store";
-import { UserLoginBody, UserRegisterBody } from "../../utils/typed";
+import { ResponseError, UserLoginBody, UserRegisterBody } from "../../utils/typed";
 import { logIn, logInFailed, logOut, saveUsers } from "../slice/userSlice";
 
-export const registerUser = (userData: UserRegisterBody) => {
-  return async (dispatch: AppDispatch) => {
+
+export const registerUser = async (userData: UserRegisterBody, validationError:(e:ResponseError)=>void) => {
+  
     try {
       const response = await fetch(
         `${process.env.REACT_APP_USER_URL}/auth/signup`,
@@ -18,17 +19,21 @@ export const registerUser = (userData: UserRegisterBody) => {
 
       if (!response.ok) {
         if (response.status === 422) {
-          throw new Error(`data.message`);
+          const errorData:ResponseError = await response.json();
+        validationError(errorData)
+        throw new Error(errorData.message);
+        } else{
+          validationError({message:'Register failed'})
+          throw new Error('Register failed');
         }
-        throw new Error(`Register failed`);
       }
       const data = await response.json();
       return data;
     } catch (error: any) {
       throw error;
     }
-  };
 };
+
 
 export const login = (userData: UserLoginBody) => {
   return async (dispatch: AppDispatch) => {
@@ -97,7 +102,7 @@ export const getAllUsers = () => {
       );
       if (!response.ok) {
         const errorData = await response.json();
-        console.log(errorData);
+
 
         return;
       }

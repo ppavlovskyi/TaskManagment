@@ -69,3 +69,12 @@ export interface SimpleUser {
   _id: string;
   name: string;
 }
+export interface Notification {
+  _id: string
+  userId: string
+  taskId: string
+  details: string
+  isUnread: boolean
+  dateTime: string
+}
+

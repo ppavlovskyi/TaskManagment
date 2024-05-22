@@ -17,10 +17,10 @@ exports.createNotification = async (req, res, next) => {
   }
 };
 
-exports.getAllNotificationByUserId = async (req, res, next) => {
+exports.getAllUnreadNotificationByUserId = async (req, res, next) => {
     const userId = req.userData.userId;
   try {
-    const notifications = await Notification.find({userId});
+    const notifications = await Notification.find({userId, isUnread: true});
     res.status(200).json(notifications);
   } catch (error) {
     next(error);
@@ -82,7 +82,7 @@ exports.deleteNotificationByTaskId = async (req, res, next) => {
     await Notification.findByIdAndDelete(notification._id);
     io.getIO().emit("notification", {
       action: "delete",
-      notification: notification._id,
+      notification
     });
     res.status(200).json({ message: "Deleted notification." });
   } catch (error) {

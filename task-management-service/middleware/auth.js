@@ -8,7 +8,6 @@ const authMiddleware = async (req, res, next) => {
       error.statusCode = 401;
       throw error;
     }
-    console.log(req.body);
 
     const response = await axios.get(`${process.env.USER_URL}/auth/check-auth`, {
       headers: {

@@ -88,8 +88,8 @@ const LogIn = () => {
         </Button>
       </Box>
       {error && (
-        <Typography sx={{ color: "red" }}>
-          {error.message}
+        <Typography sx={{ color: "red" }}> {error.message}{" "}
+          {error.data && error.data.reduce((acc, curr)=> `${acc} ${curr.msg}`,"")}
         </Typography>
       )}
       <Box sx={{ marginTop: "20px" }}>
