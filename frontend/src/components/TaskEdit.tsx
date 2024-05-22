@@ -16,6 +16,7 @@ import {
 import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import MyLocationIcon from "@mui/icons-material/MyLocation";
 import dayjs, { Dayjs } from "dayjs";
 import { useAppSelector } from "../app/hooks";
 interface Props {
@@ -47,25 +48,27 @@ const TaskEdit = ({
   const [error, setError] = useState("");
   const { users } = useAppSelector((state) => state.user);
 
+  const successHandler = (position: GeolocationPosition) => {
+    setTask((prev) => ({
+      ...prev,
+      location: {
+        ...prev.location,
+        latitude: position.coords.latitude,
+        longitude: position.coords.longitude,
+      },
+    }));
+  };
+
+  const errorHandler = () => {
+    setError("Unable to retrieve location.");
+  };
+  const handleSetCurrentPosition = () => {
+    navigator.geolocation.getCurrentPosition(successHandler, errorHandler);
+  };
+
   useEffect(() => {
-    const successHandler = (position: GeolocationPosition) => {
-      setTask((prev) => ({
-        ...prev,
-        location: {
-          ...prev.location,
-          latitude: position.coords.latitude,
-          longitude: position.coords.longitude,
-        },
-      }));
-    };
-
-    const errorHandler = () => {
-      setError("Unable to retrieve location.");
-    };
-
     if (selectedTask) {
-      navigator.geolocation.getCurrentPosition(successHandler, errorHandler);
-      setTask({
+      setTask((prev) => ({
         title: selectedTask.title || "",
         description: selectedTask.description || "",
         location: selectedTask.location || {
@@ -76,7 +79,7 @@ const TaskEdit = ({
         date: selectedTask.date || new Date().toISOString(),
         assignee: selectedTask.assignee || "",
         status: selectedTask.status || "",
-      });
+      }));
     } else {
       setTask(initialState);
     }
@@ -96,10 +99,10 @@ const TaskEdit = ({
     setTask((prev) => ({ ...prev, assignee: newValue ? newValue._id : "" }));
   };
   const handleInputLocationChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const { value } = event.target;
+    const { value, name } = event.target;
     setTask((prev) => ({
       ...prev,
-      location: { ...prev.location, name: value },
+      location: { ...prev.location, [name]: value },
     }));
   };
 
@@ -171,11 +174,38 @@ const TaskEdit = ({
           />
           <TextField
             required
-            name="location"
+            name="name"
             label="Location name"
             value={task.location.name}
             onChange={handleInputLocationChange}
           />
+          <Box sx={{ display: "flex", justifyContent: "space-around" }}>
+            <TextField
+              required
+              name="longitude"
+              label="longitude"
+              value={task.location.longitude}
+              onChange={handleInputLocationChange}
+            />
+            <TextField
+              sx={{ marginLeft: "10px" }}
+              required
+              name="latitude"
+              label="latitude"
+              value={task.location.latitude}
+              onChange={handleInputLocationChange}
+            />
+
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={handleSetCurrentPosition}
+              sx={{ marginRight: "10px", height: "54px" }}
+              startIcon={<MyLocationIcon />}
+            >
+              Set current Location
+            </Button>
+          </Box>
 
           <FormControl>
             <FormLabel id="status">Status</FormLabel>

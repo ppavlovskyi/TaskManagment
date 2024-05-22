@@ -75,7 +75,7 @@ const TasksList = () => {
         <TaskEdit
           editing={isEditing}
           loading={editLoading}
-          onCancelEdit={() => setIsEditing(false)}
+          onCancelEdit={() =>{setIsEditing(false); setEditTask(null)}}
           onFinishEdit={handleFinishEdit}
           selectedTask={editTask}
         />

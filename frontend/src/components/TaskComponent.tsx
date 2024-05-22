@@ -50,7 +50,7 @@ const TaskComponent = ({ task, onStartEdit, onDelete }: Props) => {
               {users.find((user) => user._id === task.assignee)?.name || ""}
             </Typography>
             <Typography>Status: {task.status}</Typography>
-            <Typography>Location: {task.location.name}</Typography>
+            <Typography>Location: {task.location.name} longitude: {task.location.longitude} latitude: {task.location.latitude}</Typography>
             <Typography>
               Task due date: {new Date(task.date).toLocaleString()}
             </Typography>
